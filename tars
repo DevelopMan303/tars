@@ -1,0 +1,169 @@
+#!/bin/sh
+# tar s - dtrx
+# 0 p nothing
+# 1 p extract
+# 2 compress
+# --test create and extract file
+# 2do bz2 and bz
+#################
+# Variables
+ 
+TAR=1
+TAR_STR=".tar"
+ 
+TAR_GZ=2
+TAR_GZ_STR="tar.gz"
+ 
+GZ=3
+GZ_STR=".gz"
+ 
+TAR_BZ=4
+TAR_BZ_STR=".tar.bz"
+# Idendic to BZ
+TAR_BZ2=4
+TAR_BZ2_STR=".tar.bz2"
+ 
+BZ=5
+BZ_STR=".bz"
+BZ2=5
+BZ2_STR=".bz2"
+ 
+## @brief       Prints help and abort
+Help(){
+        echo "help me out"
+        echo " "
+ 
+        exit 0
+}
+ 
+## @brief       Do the real work.
+## @param       $1 file (e.g. ~/test/tar.gz)
+## @param       $2 (int) type enum
+## @return      true or false
+DoExtract()
+{
+        FILE_NAME="$1"
+        FILE_TYPE="$2"
+        echo "DoExtract " $FILE_NAME " " $FILE_TYPE
+ 
+        # switch between supported types. Case could been selected, but if statement is better portable
+        if [ $FILE_TYPE -eq $TAR ] ; then
+                echo "do tar work"
+                tar xfv "$FILE_NAME"
+        fi
+        if [ $FILE_TYPE -eq $TAR_GZ ] ; then
+                echo "do tar.gz  work"
+                tar xfzv "$FILE_NAME"
+        fi
+        if [ $FILE_TYPE -eq $GZ ] ; then
+                echo "do gz work"
+                gunzip "$FILE_NAME"
+        fi
+        if [ $FILE_TYPE -eq $TAR_BZ ] ; then
+                echo "do tar.bz work"
+                tar xfjv "$FILE_NAME"
+        fi
+        if [ $FILE_TYPE -eq $BZ ] ; then
+                echo "do bz work"
+                bunzip2 "$FILE_NAME"
+        fi
+ 
+        # no handling for BZ2 or TAR.BT2 needed.
+ 
+        return 255
+}
+ 
+## @param       $1 File name Filetype to scan ( ScanFielType x.tar.gz -> 2)
+## @return      (int) FILE_ID 0 or TAR, TAR_GZ, GZ, TAR_BR, BZ
+ScanFileType()
+{
+        FILE_NAME="$1"
+ 
+        echo "$FILE_NAME" | grep -q -i "$TAR_STR"'$'
+        if [ $? -eq 0 ] ; then return $TAR ; fi
+ 
+        echo "$FILE_NAME" | grep -q -i "$TAR_GZ_STR"'$'
+        if [ $? -eq 0 ] ; then return $TAR_GZ ; fi
+ 
+        echo "$FILE_NAME" | grep -q -i "$GZ_STR"'$'
+        if [ $? -eq 0 ] ; then return $GZ ; fi
+ 
+        echo "$FILE_NAME" | grep -q -i "$TAR_BZ_STR"'$'
+        if [ $? -eq 0 ] ; then return $TAR_BZ ; fi
+ 
+        echo "$FILE_NAME" | grep -q -i "$TAR_BZ2_STR"'$'
+        if [ $? -eq 0 ] ; then return $TAR_BZ2 ; fi
+ 
+        echo "$FILE_NAME" | grep -q -i "$BZ_STR"'$'
+        if [ $? -eq 0 ] ; then return $BZ ; fi
+ 
+        echo "$FILE_NAME" | grep -q -i "$BZ2_STR"'$'
+        if [ $? -eq 0 ] ; then return $BZ2 ; fi
+ 
+ 
+        echo "Filetype not handled!"
+ 
+        return 0
+}
+ 
+## @para1       Filename
+UnpackMode(){
+        FILE_NAME="$1"
+        ScanFileType "$FILE_NAME"
+        FILE_TYPE=$?
+        DoExtract "$FILE_NAME" $FILE_TYPE
+}
+ 
+#####################################################
+# Test Functions
+ 
+## @para        p1 FILE_NAME e.g. test.tar.gz
+## @para2       p2 Type to find e.g. $TAR_GZ
+test_FileEndingMapping(){
+ 
+        #FILE_NAME="test.tar.gz"
+        FILE_NAME="$1"
+        TYPE_ID="$2"
+ 
+        ScanFileType "test.tar.gz" -eq "$TYPE_ID" ;
+        RET=$?
+ 
+        echo -n "Test filename: " "$FILE_NAME  "
+ 
+        if [ $RET -eq $TYPE_ID ]; then
+                echo "ok" ;
+        else
+                echo "NOK";
+        fi
+}
+ 
+ 
+tarstest(){
+        echo "Test"
+ 
+        test_FileEndingMapping "test.tar" $TAR
+        test_FileEndingMapping "test.tar.gz" $TAR_GZ
+        test_FileEndingMapping "test.gz" $GZ
+        test_FileEndingMapping "test.tar.bz" $TAR_BZ
+        test_FileEndingMapping "test.bz" $BZ
+}
+ 
+tarstest
+ 
+#########################################
+# main
+#
+ 
+# SelectMode
+if [ $# -eq 0 ]
+then
+        Help
+fi
+if [ $# -eq 1 ]
+then
+        # File will be unpacked  
+        UnpackMode "$1"
+fi
+ 
+
+
