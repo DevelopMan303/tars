@@ -6,8 +6,8 @@ Help(){
         echo "99% of tar usage is to extract the archive and all need different"
         echo "parameters. tars only need the filename."
         echo "tars only need the filename."
-        echo "dtrx is the big powerfull heavy brother."
-        echo "The follwoing filetypes are supported:"
+        echo "dtrx is the big powerful heavy brother."
+        echo "The following file types are supported:"
         echo "*.tar"
         echo "*.tar.gz"
         echo "*.tar.bz2"
@@ -18,9 +18,9 @@ Help(){
 }
 
 
-#################
+####################################################################
 # Variables
-
+# Every suppported type got a FILE_ID and an according string variable 
 TAR=1
 TAR_STR=".tar"
 
@@ -41,7 +41,10 @@ BZ_STR=".bz"
 BZ2=5
 BZ2_STR=".bz2"
 
-## @brief       Do the real work.
+####################################################################
+# Functions 
+
+## @brief       Do the real work. Finally we relay extract! 
 ## @param       $1 file (e.g. ~/test/tar.gz)
 ## @param       $2 (int) type enum
 ## @return      true or false
@@ -77,8 +80,8 @@ DoExtract()
 
         return 255
 }
-
-## @param       $1 File name Filetype to scan ( ScanFielType x.tar.gz -> 2)
+## @brief       Defines what is the file ending and provide the FILE ID 
+## @param       $1 File name File type to scan ( ScanFielType x.tar.gz -> 2)
 ## @return      (int) FILE_ID 0 or TAR, TAR_GZ, GZ, TAR_BR, BZ
 ScanFileType()
 {
@@ -111,6 +114,7 @@ ScanFileType()
         return 0
 }
 
+## @brief       Do the real work for unpacking 
 ## @para1       Filename
 UnpackMode(){
         FILE_NAME="$1"
@@ -119,7 +123,7 @@ UnpackMode(){
         DoExtract "$FILE_NAME" $FILE_TYPE
 }
 
-#####################################################
+####################################################################
 # Test Functions
 
 ## @para        p1 FILE_NAME e.g. test.tar.gz
@@ -152,20 +156,23 @@ tarstest(){
         test_FileEndingMapping "test.tar.bz" $TAR_BZ
         test_FileEndingMapping "test.bz" $BZ
 }
+# The test function 
+# tarstest
 
-tarstest
-
-#########################################
+####################################################################
 # main
 #
 
 # SelectMode
+# Check number of parameters and do action according 
 if [ $# -eq 0 ]
 then
+        # No parameter so show help   
         Help
 fi
 if [ $# -eq 1 ]
 then
         # File will be unpacked
+        # One parameter so we unpack 
         UnpackMode "$1"
 fi
