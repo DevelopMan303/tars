@@ -28,6 +28,7 @@ Afterwards copy it to a bin directory:
 ```bash
 mkdir -p ~/bin ; cp tars ~/bin
 ```
+You may logout/login afterwards.
 
 ## Licence
 Do with this whatever you like.
