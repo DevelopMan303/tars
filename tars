@@ -48,8 +48,8 @@ BZ2_STR=".bz2"
 # Functions
 
 ## @brief       Do the real work. Finally we relay extract!
-## @param       $1 file (e.g. ~/test/tar.gz)
-## @param       $2 (int) type enum
+## @param       $1 FILE_NAME (e.g. ~/test/tar.gz)
+## @param       $2 FILE_TYPE (int) type enum
 ## @return      true or false
 DoExtract()
 {
@@ -79,13 +79,13 @@ DoExtract()
                 bunzip2 "$FILE_NAME"
         fi
 
-        # no handling for BZ2 or TAR.BT2 needed.
+        # no extra handling for BZ2 or TAR.BT2 needed.
 
         return 255
 }
 
 ## @brief       Defines what is the file ending and provide the FILE ID
-## @param       $1 File name File type to scan ( ScanFielType x.tar.gz -> 2)
+## @param       $1 FILE_NAME name File type to scan ( ScanFielType x.tar.gz -> 2)
 ## @return      (int) FILE_ID 0 or TAR, TAR_GZ, GZ, TAR_BR, BZ
 ScanFileType()
 {
@@ -112,14 +112,13 @@ ScanFileType()
         echo "$FILE_NAME" | grep -q -i "$BZ2_STR"'$'
         if [ $? -eq 0 ] ; then return $BZ2 ; fi
 
-
         echo "Filetype not handled!"
 
         return 0
 }
 
 ## @brief       Do the real work for unpacking
-## @para1       Filename
+## @para1       $1 FILE_NAME
 UnpackMode(){
         FILE_NAME="$1"
         ScanFileType "$FILE_NAME"
@@ -131,7 +130,7 @@ UnpackMode(){
 # Test Functions
 
 ## @para        p1 FILE_NAME e.g. test.tar.gz
-## @para2       p2 Type to find e.g. $TAR_GZ
+## @para2       p2 FILE_TYPE to find e.g. $TAR_GZ
 test_FileEndingMapping(){
 
         #FILE_NAME="test.tar.gz"

@@ -1,8 +1,9 @@
 # tars
-This is tars the archive and all need different parameters.
-tars only need the filename. The file will be extracted according the file ending. Because it is
-Simple, more is not supported.
-dtrx is the big powerful heavy brother.
+
+This is tars. A  wrapper for tar, simple or super. 99% of tar usage is to
+extract the archive and all need different parameters.
+tars only need the filename. The file will be extracted according the file ending.
+Because it is simple, nothing else is supported."
 
 The following file types are supported:
 *.tar
@@ -15,7 +16,7 @@ The following file types are supported:
 ```bash
 tars test.tar.gz
 ```
-Thats it.
+That's it.
 
 ## Install
 Clone it at any location you like:
@@ -30,5 +31,5 @@ mkdir -p ~/bin ; cp tars ~/bin
 ```
 You may logout/login afterwards.
 
-## Licence
+## License
 Do with this whatever you like.
