@@ -27,7 +27,7 @@ git clone https://github.com/DevelopMan303/tars.git
 Afterwards copy it to a bin directory:
 
 ```bash
-mkdir -p ~/bin ; cp tars ~/bin
+mkdir -p ~/bin ; cd tars ; cp tars ~/bin
 ```
 You may logout/login afterwards.
 
