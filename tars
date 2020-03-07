@@ -17,6 +17,7 @@ Help(){
         echo "*.gz"
         echo "*.tar.bz2"
         echo "*.bz"
+	echo "*.zip"
         echo ""
 
         exit 0
@@ -48,6 +49,11 @@ BZ=5
 BZ_STR=".bz"
 BZ2=5
 BZ2_STR=".bz2"
+
+ZIP=6
+ZIP_STR=".zip"
+
+
 
 ####################################################################
 # Functions
@@ -82,6 +88,10 @@ DoExtract()
         if [ $FILE_TYPE -eq $BZ ] ; then
                 echo "do bz work"
                 bunzip2 "$FILE_NAME"
+        fi
+        if [ $FILE_TYPE -eq $ZIP ] ; then
+                echo "do zip work"
+                unzip "$FILE_NAME"
         fi
 
         # no extra handling for BZ2 or TAR.BT2 needed.
@@ -119,6 +129,9 @@ ScanFileType()
 
         echo "$FILE_NAME" | grep -q -i "$BZ2_STR"'$'
         if [ $? -eq 0 ] ; then return $BZ2 ; fi
+
+	echo "$FILE_NAME" | grep -q -i "$ZIP_STR"'$'
+        if [ $? -eq 0 ] ; then return $ZIP ; fi
 
         echo "Filetype not handled!"
 
@@ -167,6 +180,7 @@ tarstest(){
         test_FileEndingMapping "test.gz" $GZ
         test_FileEndingMapping "test.tar.bz" $TAR_BZ
         test_FileEndingMapping "test.bz" $BZ
+	test_FileEndingMapping "test.zip" $ZIP
 }
 # The test function
 # tarstest
