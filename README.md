@@ -8,6 +8,8 @@ Because it is simple, nothing else is supported."
 The following file types are supported:
 *.tar
 *.tar.gz
+*.tgz
+*.gz
 *.tar.bz2
 *.bz
 

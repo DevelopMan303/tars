@@ -13,6 +13,8 @@ Help(){
         echo "The following file types are supported:"
         echo "*.tar"
         echo "*.tar.gz"
+        echo "*.tgz"
+        echo "*.gz"
         echo "*.tar.bz2"
         echo "*.bz"
         echo ""
@@ -29,6 +31,9 @@ TAR_STR=".tar"
 
 TAR_GZ=2
 TAR_GZ_STR="tar.gz"
+# Same id of tgz and tar.gz  
+TGZ=2
+TGZ_STR=".tgz"
 
 GZ=3
 GZ_STR=".gz"
@@ -97,6 +102,9 @@ ScanFileType()
         echo "$FILE_NAME" | grep -q -i "$TAR_GZ_STR"'$'
         if [ $? -eq 0 ] ; then return $TAR_GZ ; fi
 
+	echo "$FILE_NAME" | grep -q -i "$TGZ_STR"'$'
+        if [ $? -eq 0 ] ; then return $TGZ ; fi
+
         echo "$FILE_NAME" | grep -q -i "$GZ_STR"'$'
         if [ $? -eq 0 ] ; then return $GZ ; fi
 
@@ -155,6 +163,7 @@ tarstest(){
 
         test_FileEndingMapping "test.tar" $TAR
         test_FileEndingMapping "test.tar.gz" $TAR_GZ
+        test_FileEndingMapping "test.tgz" $TGZ
         test_FileEndingMapping "test.gz" $GZ
         test_FileEndingMapping "test.tar.bz" $TAR_BZ
         test_FileEndingMapping "test.bz" $BZ
