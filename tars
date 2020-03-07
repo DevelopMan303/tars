@@ -73,7 +73,7 @@ DoExtract()
         fi
         if [ $FILE_TYPE -eq $GZ ] ; then
                 echo "do gz work"
-                gunzip "$FILE_NAME"
+                gunzip --keep "$FILE_NAME"
         fi
         if [ $FILE_TYPE -eq $TAR_BZ ] ; then
                 echo "do tar.bz work"
