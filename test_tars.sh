@@ -36,18 +36,29 @@ CheckTestFile(){
 
   rm -rf "$TEST_DIR"
 
-  "$TARS" "$FILE_NAME"
-  #tars "$FILE_NAME"
+  "$TARS" "$FILE_NAME" > /dev/null
 
-  md5sum "$TEST_FILE"
+  md5sum "$TEST_FILE" | grep -q -i "$TEST_FILE_MD5"
+  if [ $? -ne 0 ] ; then
+    echo "$FILE_NAME - NOK!" ;
+    return -1
+  fi
+
+  echo "$FILE_NAME - ok" ;
 }
 
-# Create a dir with a file and pack these files.
-# Then this files are extracect and md5 is checked. 
-CreateTestDir
-CreateTestFiles
+TEST_CreateArchiveAndTest(){
 
-CheckTestFile test.tar
-CheckTestFile test.tar.gz
-CheckTestFile test.tar.bz2
-CheckTestFile test.zip
+  # Create a dir with a file and pack these files.
+  # Then this files are extracect and md5 is checked.
+  CreateTestDir > /dev/null
+  CreateTestFiles > /dev/null
+
+  CheckTestFile test.tar
+  CheckTestFile test.tar.gz
+  CheckTestFile test.tar.bz2
+  CheckTestFile test.zip
+}
+
+
+TEST_CreateArchiveAndTest
