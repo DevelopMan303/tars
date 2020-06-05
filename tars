@@ -17,7 +17,7 @@ Help(){
         echo "*.gz"
         echo "*.tar.bz2"
         echo "*.bz"
-	echo "*.zip"
+	      echo "*.zip"
         echo ""
 
         exit 0
@@ -32,7 +32,7 @@ TAR_STR=".tar"
 
 TAR_GZ=2
 TAR_GZ_STR="tar.gz"
-# Same id of tgz and tar.gz  
+# Same id of tgz and tar.gz
 TGZ=2
 TGZ_STR=".tgz"
 
@@ -112,7 +112,7 @@ ScanFileType()
         echo "$FILE_NAME" | grep -q -i "$TAR_GZ_STR"'$'
         if [ $? -eq 0 ] ; then return $TAR_GZ ; fi
 
-	echo "$FILE_NAME" | grep -q -i "$TGZ_STR"'$'
+	      echo "$FILE_NAME" | grep -q -i "$TGZ_STR"'$'
         if [ $? -eq 0 ] ; then return $TGZ ; fi
 
         echo "$FILE_NAME" | grep -q -i "$GZ_STR"'$'
@@ -130,7 +130,7 @@ ScanFileType()
         echo "$FILE_NAME" | grep -q -i "$BZ2_STR"'$'
         if [ $? -eq 0 ] ; then return $BZ2 ; fi
 
-	echo "$FILE_NAME" | grep -q -i "$ZIP_STR"'$'
+	      echo "$FILE_NAME" | grep -q -i "$ZIP_STR"'$'
         if [ $? -eq 0 ] ; then return $ZIP ; fi
 
         echo "Filetype not handled!"
