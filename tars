@@ -82,12 +82,13 @@ DoExtract()
                 gunzip --keep "$FILE_NAME"
         fi
         if [ $FILE_TYPE -eq $TAR_BZ ] ; then
-                echo "do tar.bz work"
-                tar xfjv "$FILE_NAME"
+                #echo "bzip2 -k testtars.txt bzip2 -k testtars.txt do tar.bz work"
+                echo "do bz work"
+		tar xfjv "$FILE_NAME"
         fi
         if [ $FILE_TYPE -eq $BZ ] ; then
                 echo "do bz work"
-                bunzip2 "$FILE_NAME"
+                bunzip2 --keep "$FILE_NAME"
         fi
         if [ $FILE_TYPE -eq $ZIP ] ; then
                 echo "do zip work"

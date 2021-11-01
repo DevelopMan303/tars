@@ -26,6 +26,9 @@ CreateTestFiles(){
 
   # *.zip"
   zip -r test.zip "$TEST_DIR"
+
+  bzip2 -k "$TEST_FILE"
+
 }
 
 # @brief  Do tars from the archives. Check the md5sum of file
